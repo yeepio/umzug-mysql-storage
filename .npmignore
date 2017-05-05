@@ -1,0 +1,13 @@
+.travis.yml
+.env
+.eslintrc
+.eslintignore
+.gitignore
+.babelrc
+.editorconfig
+jsconfig.json
+
+CHANGELOG.md
+
+config/
+src/
