@@ -1,0 +1,13 @@
+.DS_Store
+._*
+.env
+.vscode
+.idea/
+
+node_modules
+typings
+dist
+
+npm-debug.log
+/migrations/history.json
+yarn.lock
