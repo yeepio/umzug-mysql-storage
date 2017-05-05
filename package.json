@@ -1,6 +1,6 @@
 {
   "name": "umzug-mysql-storage",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Custom umzug mysql storage",
   "repository": {
     "type": "git",
