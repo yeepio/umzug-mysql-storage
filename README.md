@@ -39,14 +39,14 @@ const Umzug = require('umzug');
 const umzug = new Umzug({
   storage: 'umzug-mysql-storage',
   storageOptions: {
-    database: 'foo', // change to your mysql-server schema (a.k.a. database)
-    table: 'migration', // the table you want to store migration logs into - will be automatically created
-    host: 'localhost', // change to your mysql-server hostname
-    port: 3306, // change to your mysql-server port
-    user: 'root', // change to your mysql-server username
-    password: '' // change to your mysql-server password
+    database: 'foo',
+    table: 'migration', // will be automatically created
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: ''
   }
-  // ... add extra umzug options
+  // ... specify additional umzug options - if any
 });
 ```
 
