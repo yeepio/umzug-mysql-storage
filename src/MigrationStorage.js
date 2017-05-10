@@ -82,18 +82,17 @@ class MigrationStorage {
       .then(() => this.query(sql, params));
   }
 
-  async unlogMigration(migrationName) {
-    const sql = 'INSERT FROM ?? WHERE name = ? LIMIT 1;';
+  unlogMigration(migrationName) {
+    const sql = 'DELETE FROM ?? WHERE name = ? LIMIT 1;';
     const params = [this.tableName, migrationName];
 
     return this.createMetaTableIfNotExists()
       .then(() => this.query(sql, params));
   }
 
-  async executed() {
+  executed() {
     const sql = 'SELECT name FROM ?? ORDER BY name ASC;';
     const params = [this.tableName];
-
 
     return this.createMetaTableIfNotExists()
       .then(() => this.query(sql, params))
