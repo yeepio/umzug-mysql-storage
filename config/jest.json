@@ -1,0 +1,11 @@
+{
+  "rootDir": "..",
+  "testEnvironment": "node",
+  "collectCoverageFrom": [
+    "**/*.{js,jsx}"
+  ],
+  "verbose": true,
+  "testPathIgnorePatterns": [
+    "/node_modules/"
+  ]
+}

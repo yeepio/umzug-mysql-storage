@@ -25,6 +25,8 @@
   },
   "main": "dist/MigrationStorage.js",
   "scripts": {
+    "test": "jest --config=config/jest.json --runInBand",
+    "coverage": "jest --coverage --config=config/jest.json",
     "clean": "rimraf dist",
     "prebuild": "npm run clean",
     "build": "babel src --out-dir dist --copy-files --ignore *.spec.js,*.test.js",
@@ -41,13 +43,16 @@
   },
   "devDependencies": {
     "babel-cli": "^6.23.0",
+    "babel-jest": "^20.0.0",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.23.0",
+    "dotenv": "^4.0.0",
     "eslint": "^3.17.1",
     "eslint-config-airbnb": "^14.1.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^3.0.2",
     "eslint-plugin-react": "^6.9.0",
+    "jest-cli": "^20.0.0",
     "rimraf": "^2.6.1"
   }
 }
