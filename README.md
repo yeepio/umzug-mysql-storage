@@ -2,7 +2,7 @@
 
 Custom storage engine for [Umzug](https://github.com/sequelize/umzug) to store migrations history in MySQL.
 
-[![Build Status](https://travis-ci.org/controlly/umzug-migration-engine.svg?branch=master)](https://travis-ci.org/controlly/umzug-migration-engine)
+[![Build Status](https://travis-ci.org/controlly/umzug-mysql-storage.svg?branch=master)](https://travis-ci.org/controlly/umzug-mysql-storage)
 
 #### Why?
 
