@@ -1,10 +1,18 @@
 {
   "name": "umzug-mysql-storage",
   "version": "1.0.1",
-  "description": "Custom umzug mysql storage",
+  "description": "Store umzug migration history within a MySQL table.",
+  "keywords": [
+    "umzug",
+    "mysql",
+    "migrate",
+    "migration",
+    "migrations",
+    "storage"
+  ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:access-control-management/umzug-mysql-storage.git"
+    "url": "git@github.com:controlly/umzug-mysql-storage.git"
   },
   "license": "MIT",
   "engines": {
