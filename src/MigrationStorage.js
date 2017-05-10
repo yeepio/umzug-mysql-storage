@@ -19,7 +19,7 @@ class MigrationStorage {
    * @param {number} [props.storageOptions.port=3306] optional port number; defaults to 3306
    * @param {string} [props.storageOptions.user=root] optional user name to access the database; defaults to "root"
    * @param {string} [props.storageOptions.password] optional password to access the database; defaults to "" (i.e. empty string)
-   * @param {string} [props.storageOptions.tableName=migration] optional table name to store migration log; defaults to "migration"
+   * @param {string} [props.storageOptions.table=migration] optional table name to store migration log; defaults to "migration"
    * @throws {TypeError} if arguments are of invalid type
    * @constructor
    */
@@ -35,17 +35,17 @@ class MigrationStorage {
       port = 3306,
       user = 'root',
       password = '',
-      tableName = 'migration'
+      table = 'migration'
     } = storageOptions;
     if (!isString(database)) throw new TypeError(`Invalid "database" storage option; expected string, received ${typeOf(database)}`);
     if (!isString(host)) throw new TypeError(`Invalid "host" storage option; expected string, received ${typeOf(host)}`);
     if (!isInteger(port)) throw new TypeError(`Invalid "port" storage option; expected string, received ${typeOf(port)}`);
     if (!isString(user)) throw new TypeError(`Invalid "user" storage option; expected string, received ${typeOf(user)}`);
     if (!isString(password)) throw new TypeError(`Invalid "password" storage option; expected string, received ${typeOf(password)}`);
-    if (!isString(tableName)) throw new TypeError(`Invalid "tableName" storage option; expected string, received ${typeOf(tableName)}`);
+    if (!isString(table)) throw new TypeError(`Invalid "table" storage option; expected string, received ${typeOf(table)}`);
 
     this.connectionProperties = { host, port, user, password, database };
-    this.tableName = tableName;
+    this.tableName = table;
   }
 
   /**
