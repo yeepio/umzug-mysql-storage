@@ -73,26 +73,30 @@ describe('Umzug MySQL Storage', () => {
   });
 
   describe('logMigration()', () => {
-    it('adds new migration to table', async () => {
-      await storage.logMigration('test-1');
-      expect(storage.executed()).resolves.toEqual(['test-1']);
-    });
+    it('adds new migration to table', () =>
+      storage.logMigration('test-1').then(() =>
+        expect(storage.executed()).resolves.toEqual(['test-1'])
+      )
+    );
 
-    it('can be called multiple times', async () => {
-      await storage.logMigration('test-2');
-      expect(storage.executed()).resolves.toEqual(['test-1', 'test-2']);
-    });
+    it('can be called multiple times', () =>
+      storage.logMigration('test-2').then(() =>
+        expect(storage.executed()).resolves.toEqual(['test-1', 'test-2'])
+      )
+    );
   });
 
   describe('unlogMigration()', () => {
-    it('removes migration from table', async () => {
-      await storage.unlogMigration('test-1');
-      expect(storage.executed()).resolves.toEqual(['test-2']);
-    });
+    it('removes migration from table', () =>
+      storage.unlogMigration('test-1').then(() =>
+        expect(storage.executed()).resolves.toEqual(['test-2'])
+      )
+    );
 
-    it('can be called multiple times', async () => {
-      await storage.unlogMigration('test-2');
-      expect(storage.executed()).resolves.toEqual([]);
-    });
+    it('can be called multiple times', () =>
+      storage.unlogMigration('test-2').then(() =>
+        expect(storage.executed()).resolves.toEqual([])
+      )
+    );
   });
 });
