@@ -1,22 +1,68 @@
 import isString from 'lodash/isString';
+import isInteger from 'lodash/isInteger';
+import isPlainObject from 'lodash/isPlainObject';
 import typeOf from 'typeof';
-import MySQLDatabase from 'mysql-database';
+import mysql from 'mysql';
+import Connection from 'mysql/lib/Connection';
+import Promise from 'bluebird';
+
+Promise.promisifyAll(Connection.prototype);
 
 class MigrationStorage {
-  constructor(options) {
-    const { client, tableName } = options.storageOptions;
 
-    if (!(client instanceof MySQLDatabase)) {
-      throw new TypeError('Invalid "client" property; expected instance of MySQLDatabase');
-    }
+  /**
+   * Creates a new MigrationStorage instance with the designated properties.
+   * @param {Object} props umzug passed properties
+   * @param {Object} props.storageOptions storage-specific options
+   * @param {string} props.storageOptions.database the name of the database
+   * @param {string} [props.storageOptions.host=localhost] optional hostname; defaults to "localhost"
+   * @param {number} [props.storageOptions.port=3306] optional port number; defaults to 3306
+   * @param {string} [props.storageOptions.user=root] optional user name to access the database; defaults to "root"
+   * @param {string} [props.storageOptions.password] optional password to access the database; defaults to "" (i.e. empty string)
+   * @param {string} [props.storageOptions.tableName=migration] optional table name to store migration log; defaults to "migration"
+   * @throws {TypeError} if arguments are of invalid type
+   * @constructor
+   */
+  constructor(props) {
+    if (!isPlainObject(props)) throw new TypeError(`Invalid "props" param; expected plain object, received ${typeOf(props)}`);
 
-    if (!isString(tableName)) throw new TypeError(`Invalid "tableName" property; expected string, received ${typeOf(tableName)}`);
+    const { storageOptions } = props;
+    if (!isPlainObject(storageOptions)) throw new TypeError(`Invalid "storageOptions" property; expected plain object, received ${typeOf(storageOptions)}`);
 
-    this.client = client;
+    const {
+      database,
+      host = 'localhost',
+      port = 3306,
+      user = 'root',
+      password = '',
+      tableName = 'migration'
+    } = storageOptions;
+    if (!isString(database)) throw new TypeError(`Invalid "database" storage option; expected string, received ${typeOf(database)}`);
+    if (!isString(host)) throw new TypeError(`Invalid "host" storage option; expected string, received ${typeOf(host)}`);
+    if (!isInteger(port)) throw new TypeError(`Invalid "port" storage option; expected string, received ${typeOf(port)}`);
+    if (!isString(user)) throw new TypeError(`Invalid "user" storage option; expected string, received ${typeOf(user)}`);
+    if (!isString(password)) throw new TypeError(`Invalid "password" storage option; expected string, received ${typeOf(password)}`);
+    if (!isString(tableName)) throw new TypeError(`Invalid "tableName" storage option; expected string, received ${typeOf(tableName)}`);
+
+    this.connectionProperties = { host, port, user, password, database };
     this.tableName = tableName;
   }
 
-  async createMetaTableIfNotExists() {
+  /**
+   * Executes the supplied query.
+   * @see {@link https://github.com/mysqljs/mysql#performing-queries} for further info
+   * @returns Promise
+   * @private
+   */
+  query(sql, values) {
+    const conn = mysql.createConnection(this.connectionProperties);
+
+    return conn.connectAsync()
+      .then(() => conn.queryAsync(sql, values))
+      .finally(() => conn.end());
+  }
+
+  createMetaTableIfNotExists() {
     const sql = `
       CREATE TABLE IF NOT EXISTS ?? (
         \`name\` varchar(100) NOT NULL,
@@ -25,33 +71,33 @@ class MigrationStorage {
     `;
     const params = [this.tableName];
 
-    return this.client.query(sql, params);
+    return this.query(sql, params);
   }
 
-  async logMigration(migrationName) {
-    await this.createMetaTableIfNotExists();
-
+  logMigration(migrationName) {
     const sql = 'INSERT INTO ?? SET name = ?;';
     const params = [this.tableName, migrationName];
-    return this.client.query(sql, params);
+
+    return this.createMetaTableIfNotExists()
+      .then(() => this.query(sql, params));
   }
 
   async unlogMigration(migrationName) {
-    await this.createMetaTableIfNotExists();
-
     const sql = 'INSERT FROM ?? WHERE name = ? LIMIT 1;';
     const params = [this.tableName, migrationName];
-    return this.client.query(sql, params);
+
+    return this.createMetaTableIfNotExists()
+      .then(() => this.query(sql, params));
   }
 
   async executed() {
-    await this.createMetaTableIfNotExists();
-
     const sql = 'SELECT name FROM ?? ORDER BY name ASC;';
     const params = [this.tableName];
-    const records = await this.client.query(sql, params);
 
-    return records.map((o) => o.name);
+
+    return this.createMetaTableIfNotExists()
+      .then(() => this.query(sql, params))
+      .map((o) => o.name);
   }
 }
 
