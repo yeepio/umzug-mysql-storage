@@ -6,7 +6,7 @@
     "type": "git",
     "url": "git@github.com:access-control-management/umzug-mysql-storage.git"
   },
-  "license": "UNLICENSED",
+  "license": "MIT",
   "engines": {
     "node": "^7.7.1"
   },
@@ -32,6 +32,5 @@
     "eslint-plugin-jsx-a11y": "^3.0.2",
     "eslint-plugin-react": "^6.9.0",
     "rimraf": "^2.6.1"
-  },
-  "private": true
+  }
 }
