@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+  - 4.0
+  - 5.0
+  - 6.0
+  - 7.0
+services:
+  - mysql
+before_script:
+  - mysql -e 'CREATE DATABASE testdb;'
+env:
+  - NODE_ENV=development MYSQL_HOST=localhost MYSQL_PORT=3306 MYSQL_USER=root MYSQL_PASSWORD= MYSQL_DATABASE=testdb
