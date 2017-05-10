@@ -68,4 +68,4 @@ Source code contributions are most welcome. The following rules apply:
 
 ## License
 
-MIT
+[MIT](LICENSE)
