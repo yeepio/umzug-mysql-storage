@@ -39,7 +39,7 @@ class MigrationStorage {
     } = storageOptions;
     if (!isString(database)) throw new TypeError(`Invalid "database" storage option; expected string, received ${typeOf(database)}`);
     if (!isString(host)) throw new TypeError(`Invalid "host" storage option; expected string, received ${typeOf(host)}`);
-    if (!isInteger(port)) throw new TypeError(`Invalid "port" storage option; expected string, received ${typeOf(port)}`);
+    if (!isInteger(port)) throw new TypeError(`Invalid "port" storage option; expected integer, received ${typeOf(port)}`);
     if (!isString(user)) throw new TypeError(`Invalid "user" storage option; expected string, received ${typeOf(user)}`);
     if (!isString(password)) throw new TypeError(`Invalid "password" storage option; expected string, received ${typeOf(password)}`);
     if (!isString(table)) throw new TypeError(`Invalid "table" storage option; expected string, received ${typeOf(table)}`);
