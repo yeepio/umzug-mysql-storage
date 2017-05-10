@@ -18,7 +18,7 @@ $ npm install umzug-mysql-storage
 
 #### Requirements
 
-* Node.js v.5+
+* Node.js v.4+
 * MySQL v.5+
 
 ## Quick start
