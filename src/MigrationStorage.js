@@ -46,6 +46,7 @@ class MigrationStorage {
 
     this.connectionProperties = { host, port, user, password, database };
     this.tableName = table;
+    this.tableExists = false;
   }
 
   /**
@@ -63,6 +64,11 @@ class MigrationStorage {
   }
 
   createMetaTableIfNotExists() {
+    // do not try to create table every time if you already know it's been created
+    if (this.tableExists) {
+      return Promise.resolve(); // exit
+    }
+
     const sql = `
       CREATE TABLE IF NOT EXISTS ?? (
         \`name\` varchar(100) NOT NULL,
@@ -71,7 +77,10 @@ class MigrationStorage {
     `;
     const params = [this.tableName];
 
-    return this.query(sql, params);
+    return this.query(sql, params)
+      .then(() => {
+        this.tableExists = true; // mark table as created - optimization
+      });
   }
 
   logMigration(migrationName) {
