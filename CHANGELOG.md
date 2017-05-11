@@ -1,3 +1,7 @@
+## 1.1.1 - 2017-05-11
+
+* Optimization: do not try to create table every time if you already know it's been created
+
 ## 1.1.0 - 2017-05-10
 
 * Bugfix: use DELETE SQL statement with unlogMigration().
