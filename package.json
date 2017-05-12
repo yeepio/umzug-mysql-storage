@@ -39,7 +39,7 @@
     "typeof": "^1.0.0"
   },
   "peerDependencies": {
-    "umzug": "^1.12.0"
+    "umzug": "^2.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -52,6 +52,7 @@
     "eslint-config-airbnb": "^14.1.0",
     "eslint-plugin-import": "^2.2.0",
     "jest-cli": "^20.0.1",
-    "rimraf": "^2.6.1"
+    "rimraf": "^2.6.1",
+    "umzug": "^2.0.1"
   }
 }
