@@ -23,41 +23,41 @@ $ npm install umzug-mysql-storage
 
 ## Quick start
 
-Install `umzug` and `umzug-mysql-storage` using npm.
+Install `umzug-mysql-storage` and `umzug` v.2+, which is listed as a peer dependency.
 
 ```
-$ npm install umzug --save
 $ npm install umzug-mysql-storage --save
+$ npm install umzug --save
 ```
 
-Register storage engine with umzug and supply the required storage options.
+Setup storage engine with umzug.
 
 ```javascript
 const path = require('path');
 const Umzug = require('umzug');
+const MySQLStorage = require('umzug-mysql-storage');
 
 const umzug = new Umzug({
-  storage: 'umzug-mysql-storage',
-  storageOptions: {
+  storage: new MySQLStorage({
     database: 'foo',
     table: 'migration', // will be automatically created
     host: 'localhost',
     port: 3306,
     user: 'root',
     password: ''
-  }
+  }),
   // ... specify additional umzug options - if any
 });
 ```
 
-## Storage options
+## Storage properties
 
 * `database` _(string)_ the name of the database to store migration logs into (required).
 * `table` _(string)_ the name of the table to store migration logs into; defaults to "migration" (optional).
-* `host` _(string)_ mysql server hostname (optional); defaults to "localhost".
-* `port` _(integer)_ mysql server port (optional); defaults to 3306.
-* `user` _(string)_ mysql server username (optional); defaults to "root".
-* `password` _(string)_ mysql server password (optional); defaults to "" (empty string).
+* `host` _(string)_ mysql server hostname (optional; defaults to "localhost").
+* `port` _(integer)_ mysql server port (optional; defaults to 3306).
+* `user` _(string)_ mysql server username (optional; defaults to "root").
+* `password` _(string)_ mysql server password (optional; defaults to empty string).
 
 ## Contribute
 
