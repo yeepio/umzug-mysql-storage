@@ -10,12 +10,6 @@ describe('Umzug MySQL Storage', () => {
         .toThrowError('Invalid "props" param; expected plain object, received undefined');
     });
 
-    it('throws error when "storageOptions" property is unspecified', () => {
-      expect(() =>
-        new MigrationStorage({})
-      ).toThrowError('Invalid "storageOptions" property; expected plain object, received undefined');
-    });
-
     it('throws error when "storageOptions" property is invalid', () => {
       expect(() =>
         new MigrationStorage({
@@ -53,17 +47,23 @@ describe('Umzug MySQL Storage', () => {
         })
       ).not.toThrow();
     });
+
+    it('supports umzug v.2 options format', () => {
+      expect(() =>
+        new MigrationStorage({
+          database: process.env.MYSQL_DATABASE
+        })
+      ).not.toThrow();
+    });
   });
 
   const storage = new MigrationStorage({
-    storageOptions: {
-      database: process.env.MYSQL_DATABASE,
-      table: 'migration_log',
-      host: process.env.MYSQL_HOST,
-      port: parseInt(process.env.MYSQL_PORT, 10) || 3306,
-      user: process.env.MYSQL_USER,
-      password: process.env.MYSQL_PASSWORD,
-    }
+    database: process.env.MYSQL_DATABASE,
+    table: 'migration_log',
+    host: process.env.MYSQL_HOST,
+    port: parseInt(process.env.MYSQL_PORT, 10) || 3306,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
   });
 
   describe('executed()', () => {
