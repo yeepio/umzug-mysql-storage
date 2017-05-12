@@ -1,6 +1,11 @@
+## 1.2.0 - 2017-05-12
+
+* Add support for umzug v.2+.
+* Update dev dependencies: jest-cli@20.0.1, babel-jest@20.0.1.
+
 ## 1.1.1 - 2017-05-11
 
-* Optimization: do not try to create table every time if you already know it's been created
+* Optimization: do not try to create table every time if you already know it's been created.
 
 ## 1.1.0 - 2017-05-10
 
