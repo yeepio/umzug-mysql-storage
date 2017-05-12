@@ -6,7 +6,7 @@ Custom storage engine for [Umzug](https://github.com/sequelize/umzug) to store m
 
 #### Why?
 
-* Inception; it allows you to store the migration logs within the same MySQL database you are migrating;
+* Inception; it allows you to store migration logs within the same MySQL database you are migrating;
 * Umzug's default JSON storage engine produces a local JSON file that does not persist with ephemeral file-systems, such as Heroku;
 * Makes team collaboration easier with devs that use the same db server.
 
