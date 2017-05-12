@@ -26,8 +26,13 @@ class MigrationStorage {
   constructor(props) {
     if (!isPlainObject(props)) throw new TypeError(`Invalid "props" param; expected plain object, received ${typeOf(props)}`);
 
-    const { storageOptions } = props;
-    if (!isPlainObject(storageOptions)) throw new TypeError(`Invalid "storageOptions" property; expected plain object, received ${typeOf(storageOptions)}`);
+    // convert props from umzug v1- to v2+
+    if (props.storageOptions) {
+      const { storageOptions } = props;
+      if (!isPlainObject(storageOptions)) throw new TypeError(`Invalid "storageOptions" property; expected plain object, received ${typeOf(storageOptions)}`);
+
+      props = storageOptions; // overwrite props
+    }
 
     const {
       database,
@@ -36,7 +41,8 @@ class MigrationStorage {
       user = 'root',
       password = '',
       table = 'migration'
-    } = storageOptions;
+    } = props;
+
     if (!isString(database)) throw new TypeError(`Invalid "database" storage option; expected string, received ${typeOf(database)}`);
     if (!isString(host)) throw new TypeError(`Invalid "host" storage option; expected string, received ${typeOf(host)}`);
     if (!isInteger(port)) throw new TypeError(`Invalid "port" storage option; expected integer, received ${typeOf(port)}`);
