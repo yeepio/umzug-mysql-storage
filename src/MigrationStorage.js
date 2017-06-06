@@ -20,6 +20,7 @@ class MigrationStorage {
    * @param {string} [props.storageOptions.user=root] optional user name to access the database; defaults to "root"
    * @param {string} [props.storageOptions.password] optional password to access the database; defaults to "" (i.e. empty string)
    * @param {string} [props.storageOptions.table=migration] optional table name to store migration log; defaults to "migration"
+   * @param {string} [props.storageOptions.column=name] optional column name to store migration log; defaults to "name"
    * @throws {TypeError} if arguments are of invalid type
    * @constructor
    */
@@ -40,7 +41,8 @@ class MigrationStorage {
       port = 3306,
       user = 'root',
       password = '',
-      table = 'migration'
+      table = 'migration',
+      column = 'name'
     } = props;
 
     if (!isString(database)) throw new TypeError(`Invalid "database" storage option; expected string, received ${typeOf(database)}`);
@@ -49,9 +51,11 @@ class MigrationStorage {
     if (!isString(user)) throw new TypeError(`Invalid "user" storage option; expected string, received ${typeOf(user)}`);
     if (!isString(password)) throw new TypeError(`Invalid "password" storage option; expected string, received ${typeOf(password)}`);
     if (!isString(table)) throw new TypeError(`Invalid "table" storage option; expected string, received ${typeOf(table)}`);
+    if (!isString(column)) throw new TypeError(`Invalid "column" storage option; expected string, received ${typeOf(column)}`);
 
     this.connectionProperties = { host, port, user, password, database };
     this.tableName = table;
+    this.columnName = column;
     this.tableExists = false;
   }
 
@@ -77,8 +81,8 @@ class MigrationStorage {
 
     const sql = `
       CREATE TABLE IF NOT EXISTS ?? (
-        \`name\` varchar(100) NOT NULL,
-        PRIMARY KEY (\`name\`)
+        \`${this.columnName}\` varchar(100) NOT NULL,
+        PRIMARY KEY (\`${this.columnName}\`)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
     `;
     const params = [this.tableName];
@@ -90,7 +94,7 @@ class MigrationStorage {
   }
 
   logMigration(migrationName) {
-    const sql = 'INSERT INTO ?? SET name = ?;';
+    const sql = `INSERT INTO ?? SET ${this.columnName} = ?;`;
     const params = [this.tableName, migrationName];
 
     return this.createMetaTableIfNotExists()
@@ -98,7 +102,7 @@ class MigrationStorage {
   }
 
   unlogMigration(migrationName) {
-    const sql = 'DELETE FROM ?? WHERE name = ? LIMIT 1;';
+    const sql = `DELETE FROM ?? WHERE ${this.columnName} = ? LIMIT 1;`;
     const params = [this.tableName, migrationName];
 
     return this.createMetaTableIfNotExists()
@@ -106,12 +110,12 @@ class MigrationStorage {
   }
 
   executed() {
-    const sql = 'SELECT name FROM ?? ORDER BY name ASC;';
+    const sql = `SELECT ${this.columnName} FROM ?? ORDER BY ${this.columnName} ASC;`;
     const params = [this.tableName];
 
     return this.createMetaTableIfNotExists()
       .then(() => this.query(sql, params))
-      .map((o) => o.name);
+      .map((o) => o[this.columnName]);
   }
 }
 
