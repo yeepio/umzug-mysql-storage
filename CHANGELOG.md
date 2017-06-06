@@ -1,3 +1,8 @@
+## 1.3.0 - 2017-06-07
+
+* Added option to configure column name (#1 by @tezmaster).
+* Escape column name using sqlstring@2.2.0.
+
 ## 1.2.0 - 2017-05-12
 
 * Add support for umzug v.2+.
