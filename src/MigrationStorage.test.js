@@ -60,6 +60,7 @@ describe('Umzug MySQL Storage', () => {
   const storage = new MigrationStorage({
     database: process.env.MYSQL_DATABASE,
     table: 'migration_log',
+    column: 'migration',
     host: process.env.MYSQL_HOST,
     port: parseInt(process.env.MYSQL_PORT, 10) || 3306,
     user: process.env.MYSQL_USER,
