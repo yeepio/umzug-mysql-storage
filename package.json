@@ -36,6 +36,7 @@
     "bluebird": "^3.5.0",
     "lodash": "^4.17.2",
     "mysql": "^2.13.0",
+    "sqlstring": "^2.2.0",
     "typeof": "^1.0.0"
   },
   "peerDependencies": {
