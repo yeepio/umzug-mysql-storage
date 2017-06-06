@@ -41,7 +41,7 @@ const umzug = new Umzug({
   storage: new MySQLStorage({
     database: 'foo',
     table: 'migration', // will be automatically created
-    column: 'migration', // optional
+    column: 'name', // optional
     host: 'localhost',
     port: 3306,
     user: 'root',
