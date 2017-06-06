@@ -41,6 +41,7 @@ const umzug = new Umzug({
   storage: new MySQLStorage({
     database: 'foo',
     table: 'migration', // will be automatically created
+    column: 'migration', // optional
     host: 'localhost',
     port: 3306,
     user: 'root',
@@ -54,6 +55,7 @@ const umzug = new Umzug({
 
 * `database` _(string)_ the name of the database to store migration logs into (required).
 * `table` _(string)_ the name of the table to store migration logs into; defaults to "migration" (optional).
+* `column` _(string)_ the name of the column to store migration logs into; defaults to "name" (optional).
 * `host` _(string)_ mysql server hostname (optional; defaults to "localhost").
 * `port` _(integer)_ mysql server port (optional; defaults to 3306).
 * `user` _(string)_ mysql server username (optional; defaults to "root").
