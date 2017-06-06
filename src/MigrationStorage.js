@@ -5,6 +5,7 @@ import typeOf from 'typeof';
 import mysql from 'mysql';
 import Connection from 'mysql/lib/Connection';
 import Promise from 'bluebird';
+import { escapeId } from 'sqlstring';
 
 Promise.promisifyAll(Connection.prototype);
 
@@ -81,8 +82,8 @@ class MigrationStorage {
 
     const sql = `
       CREATE TABLE IF NOT EXISTS ?? (
-        \`${this.columnName}\` varchar(100) NOT NULL,
-        PRIMARY KEY (\`${this.columnName}\`)
+        ${escapeId(this.columnName)} varchar(100) NOT NULL,
+        PRIMARY KEY (${escapeId(this.columnName)})
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
     `;
     const params = [this.tableName];
@@ -94,7 +95,7 @@ class MigrationStorage {
   }
 
   logMigration(migrationName) {
-    const sql = `INSERT INTO ?? SET ${this.columnName} = ?;`;
+    const sql = `INSERT INTO ?? SET ${escapeId(this.columnName)} = ?;`;
     const params = [this.tableName, migrationName];
 
     return this.createMetaTableIfNotExists()
@@ -102,7 +103,7 @@ class MigrationStorage {
   }
 
   unlogMigration(migrationName) {
-    const sql = `DELETE FROM ?? WHERE ${this.columnName} = ? LIMIT 1;`;
+    const sql = `DELETE FROM ?? WHERE ${escapeId(this.columnName)} = ? LIMIT 1;`;
     const params = [this.tableName, migrationName];
 
     return this.createMetaTableIfNotExists()
@@ -110,7 +111,7 @@ class MigrationStorage {
   }
 
   executed() {
-    const sql = `SELECT ${this.columnName} FROM ?? ORDER BY ${this.columnName} ASC;`;
+    const sql = `SELECT ${escapeId(this.columnName)} FROM ?? ORDER BY ${escapeId(this.columnName)} ASC;`;
     const params = [this.tableName];
 
     return this.createMetaTableIfNotExists()
